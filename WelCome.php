@@ -33,7 +33,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
             <p class="mb-0">Lets Go</p>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <h1></h1>
     </div>
 
 
