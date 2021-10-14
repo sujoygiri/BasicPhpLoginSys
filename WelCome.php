@@ -34,7 +34,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
         </div>
         <div>
             <strong>If You Want To Log Out Then Click Here --></strong>
-            <a type="button" href="./SignOut.php" class="btn btn-outline-warning btn-sm">Logout</a>
+            <a type="button" href="./SignOut.php" class="btn btn-outline-danger btn-sm">Logout</a>
         </div>
     </div>
 
