@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true){
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
     header("Location: ./SignIn.php");
     exit;
 }
@@ -19,19 +19,20 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true){
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="static/css/main.css" />
-    <link rel="icon" href="static/img/password.png" type="image"/>
-    <title>Welcome - <?php echo $_SESSION['user_name']?></title>
+    <link rel="icon" href="static/img/password.png" type="image" />
+    <title>Welcome - <?php echo $_SESSION['user_name'] ?></title>
 </head>
 
 <body>
     <?php require 'Navbar/_navbar.php'; ?>
     <div class="container mt-4">
-        <h1>Welcome - <strong> <?php echo $_SESSION['user_name']?> </strong></h1>
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Welcome - <strong> <?php echo $_SESSION['user_name'] ?> </strong></h4>
+            <p>Aww yeah, you successfully Logged In.</p>
+            <hr>
+            <p class="mb-0">Lets Go</p>
+        </div>
     </div>
-
-
-
-
 
 
 
