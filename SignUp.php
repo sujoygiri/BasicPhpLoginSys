@@ -2,6 +2,7 @@
 $insert = false;
 $pass_match = true;
 $user_exist = false;
+$email_exist = false;
 require 'DBconnect/db_connect.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_name = $_POST['user_name'];
@@ -12,17 +13,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_search = mysqli_query($conn, $user_search_query);
     $num = mysqli_num_rows($user_search);
     if (!$num) {
-        if ($pass == $re_enter_pass) {
-            $user_data = "INSERT INTO `user_details` (`user_name`, `email_id`, `password`, `date`) 
-                                VALUES ('$user_name', '$email_id', '$pass', current_timestamp());";
-            $insert_data = mysqli_query($conn, $user_data);
-            if ($insert_data) {
-                $insert = True;
+        $email_search_query = "SELECT * FROM `user_details` WHERE `email_id` = '$email_id';";
+        $email_search = mysqli_query($conn, $email_search_query);
+        $number = mysqli_num_rows($email_search);
+        if(!$number){
+            if ($pass == $re_enter_pass) {
+                $pass_hash = password_hash($pass,PASSWORD_DEFAULT);
+                $user_data = "INSERT INTO `user_details` (`user_name`, `email_id`, `password`, `date`) 
+                                    VALUES ('$user_name', '$email_id', '$pass_hash', current_timestamp());";
+                $insert_data = mysqli_query($conn, $user_data);
+                if ($insert_data) {
+                    $insert = True;
+                }
+            }else {
+                $pass_match = false;
             }
-        } else {
-            $pass_match = false;
+        }else{
+            $email_exist = true;
         }
-    } else {
+    }else {
         $user_exist = true;
     }
 }
@@ -44,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-    <?php require 'Navbar/_navbar.php'; ?>
+    <?php require './_navbar.php'; ?>
     <?php
 
     if ($insert) {
@@ -65,6 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>';
     }
+    if ($email_exist) {
+        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Sorry!! Sign Up Failed</strong> This Email id is already resistered!!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+    }
     ?>
     <div class="container col-md-6 my-4">
         <h1 class="text-center mt-4">Sign Up To Best Login System</h1>
@@ -80,11 +95,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="mb-3">
                 <label for="pass" class="form-label">Enter Your Password</label>
-                <input type="password" class="form-control" name="pass" id="pass" required>
+                <input type="password" maxlength="20" class="form-control" name="pass" id="pass" required>
             </div>
             <div class="mb-3">
                 <label for="re_enter_pass" class="form-label">Re-enter Your Password</label>
-                <input type="password" class="form-control" name="re_enter_pass" id="re_enter_pass" aria-describedby="re_enter" required>
+                <input type="password" maxlength="20" class="form-control" name="re_enter_pass" id="re_enter_pass" aria-describedby="re_enter" required>
                 <div id="re_enter" class="form-text">Make Sure You Enter The Same Password</div>
             </div>
             <button type="submit" class="btn btn-outline-primary col-md-12">Sign Up</button>

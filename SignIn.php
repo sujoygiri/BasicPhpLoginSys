@@ -5,16 +5,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require 'DBconnect/db_connect.php';
     $user_name = $_POST['user_name'];
     $pass = $_POST['pass'];
-    $user_search_query = "SELECT * FROM `user_details` WHERE `user_name` = '$user_name' AND `password` = '$pass';";
+    $user_search_query = "SELECT * FROM `user_details` WHERE `user_name` = '$user_name';";
     $user_search = mysqli_query($conn, $user_search_query);
     $num = mysqli_num_rows($user_search);
     if ($num == 1) {
-        $login_success = true;
-        session_start();
-        $_SESSION['loggedin'] = true;
-        $_SESSION['user_name'] = $user_name;
-        echo $_SESSION['user_name'];
-        header("Location: ./WelCome.php");
+        while($row = mysqli_fetch_assoc($user_search)){
+            if (password_verify($pass,$row['password'])) {
+                $login_success = true;
+                session_start();
+                $_SESSION['loggedin'] = true;
+                $_SESSION['user_name'] = $user_name;
+                echo $_SESSION['user_name'];
+                header("Location: ./WelCome.php");
+            }else {
+                $login_failed = true;
+            }
+        }
     } else {
         $login_failed = true;
     }
@@ -37,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-    <?php require 'Navbar/_navbar.php'; ?>
+    <?php require './_navbar.php'; ?>
     <?php
     if ($login_success) {
         echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -58,11 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form class="mt-4 " action="./SignIn.php" method="post">
             <div class="mb-3">
                 <label for="user_name" class="form-label">Enter Your User Name</label>
-                <input type="text" class="form-control" maxlength="10" name="user_name" id="user_name" required>
+                <input type="text" class="form-control" maxlength="15" name="user_name" id="user_name" required>
             </div>
             <div class="mb-3">
                 <label for="pass" class="form-label">Enter Your Password</label>
-                <input type="password" class="form-control" name="pass" id="pass" required>
+                <input type="password" maxlength="20" class="form-control" name="pass" id="pass" required>
             </div>
             <button type="submit" class="btn btn-outline-primary col-md-12">Sign In</button>
         </form>

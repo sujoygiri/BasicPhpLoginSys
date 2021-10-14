@@ -1,3 +1,15 @@
+<?php
+$login_status = false;
+// session_start();
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+  $login_status = true;
+}
+
+
+?>
+
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="./WelCome.php">Secure Login</a>
@@ -9,14 +21,26 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="./WelCome.php">Home</a>
         </li>
+        <!-- <li class="nav-item">
+          <?php
+          if (!$login_status) {
+            echo '<a class="nav-link" href="./SignUp.php">Sign Up</a>';
+          }
+          ?>
+        </li> -->
         <li class="nav-item">
-          <a class="nav-link" href="./SignUp.php">Sign Up</a>
+          <?php
+          if (!$login_status) {
+            echo '<a class="nav-link" href="./SignIn.php">Sign In</a>';
+          }
+          ?>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./SignIn.php">Sign In</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./SignOut.php">Sign Out</a>
+          <?php
+          if ($login_status) {
+            echo '<a class="nav-link" href="./SignOut.php">Sign Out</a>';
+          }
+          ?>
         </li>
       </ul>
       <form class="d-flex">

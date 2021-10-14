@@ -23,7 +23,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
 </head>
 
 <body>
-    <?php require 'Navbar/_navbar.php'; ?>
+    <?php require './_navbar.php'; ?>
     <div class="container mt-4">
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <h4 class="alert-heading">Welcome - <strong><?php echo $_SESSION['user_name'] ?></strong></h4>
