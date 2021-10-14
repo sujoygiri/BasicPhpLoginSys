@@ -26,11 +26,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
 <body>
     <?php require 'Navbar/_navbar.php'; ?>
     <div class="container mt-4">
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Welcome - <strong> <?php echo $_SESSION['user_name'] ?> </strong></h4>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <h4 class="alert-heading">Welcome - <strong><?php echo $_SESSION['user_name'] ?></strong></h4>
             <p>Aww yeah, you successfully Logged In.</p>
             <hr>
             <p class="mb-0">Lets Go</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
 
